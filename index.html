@@ -146,6 +146,10 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:45}
 .sound{position:fixed;top:14px;right:14px;z-index:20;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
   background:rgba(255,255,255,.08);color:var(--ink);font-size:18px;backdrop-filter:blur(8px);cursor:pointer}
 .sound.off{opacity:.55}
+.tw .twl{opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease;margin:.55em 0;font-size:18px;line-height:1.45}
+.tw .twl.in{opacity:1;transform:none}
+.tw .big2{font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--gold2)}
+.tw .btn.twl{margin-top:1.2em}
 </style>
 </head>
 <body>
@@ -243,9 +247,25 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:45}
     </div>
   </section>
 
+  <!-- COLPO DI SCENA -->
+  <section class="screen" id="twist">
+    <div class="spacer"></div>
+    <div class="center tw">
+      <div class="orb" style="font-size:54px">🤫</div>
+      <p class="twl">Alessia, fermati un attimo. 😏</p>
+      <p class="twl">Le prove, il lucchetto, il «hai vinto»…</p>
+      <p class="twl">…era <b style="color:var(--gold)">tutta una farsa</b>. Non hai vinto nessun concorso, mi dispiace 😅</p>
+      <p class="twl big2">La verità?</p>
+      <p class="twl">Questo è il regalo della tua amica <b style="color:var(--rose)">Sara</b> 💛<br>che ti porta con sé a <b style="color:var(--gold)">Firenze</b>, al concerto di <b style="color:var(--gold)">James Blunt</b>! 🎶</p>
+      <p class="twl big2">Tanti auguri! 🎂🎉</p>
+      <button class="btn twl" onclick="showTicket()">Fammi vedere il biglietto 🎟️</button>
+    </div>
+    <div class="spacer"></div>
+  </section>
+
   <!-- REVEAL -->
   <section class="screen" id="reveal">
-    <div class="kicker" style="margin-top:6px">🎉 Hai vinto 🎉</div>
+    <div class="kicker" style="margin-top:6px">🎂 Tanti auguri, Alessia 🎂</div>
     <div class="ticket">
       <div class="t-top">
         <div class="kicker">Biglietto per 1 · Live</div>
@@ -287,7 +307,7 @@ if (/[?&#]test/.test(location.href)) document.body.classList.add('test');
 })();
 
 /* ---------- flow ---------- */
-const order=['intro','g1','g2','g3','g4','lock','suspense','reveal'];
+const order=['intro','g1','g2','g3','g4','lock','suspense','twist','reveal'];
 let cur=0, got=0;
 const dots=document.getElementById('dots'), frags=document.getElementById('frags');
 for(let i=0;i<4;i++){dots.innerHTML+='<div class="dot"></div>';frags.innerHTML+='<div class="frag">?</div>'}
@@ -451,7 +471,11 @@ function suspense(){
        if(taps>=3){g.onclick=null;setTimeout(showReveal,1200)}}},10600);
 }
 function showReveal(){const f=document.getElementById('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');
-  setTimeout(()=>{go(7);burst(250);music.fanfare();setTimeout(()=>burst(150),900)},150)}
+  setTimeout(()=>{go(7);twistPlay()},150)}
+function twistPlay(){const ls=[...document.querySelectorAll('#twist .twl')];ls.forEach(l=>l.classList.remove('in'));
+  ls.forEach((l,i)=>T(()=>{l.classList.add('in');if(i===ls.length-2){burst(140);music.fanfare()}},600+i*1700))}
+function showTicket(){const f=document.getElementById('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');
+  setTimeout(()=>{go(8);burst(250);music.fanfare();setTimeout(()=>burst(150),900)},150)}
 
 /* ---------- pdf download ---------- */
 function downloadPdf(){
