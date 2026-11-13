@@ -156,7 +156,6 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:45}
 <canvas id="sky"></canvas>
 <canvas id="confetti"></canvas>
 <div class="flash" id="flash"></div>
-<button class="sound" id="soundBtn" aria-label="Musica" onclick="music.toggle()" hidden>🔊</button>
 <button class="btn ghost small skip" id="skip">Salta (test) ›</button>
 
 <div class="wrap">
@@ -254,7 +253,7 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:45}
       <div class="orb" style="font-size:54px">🤫</div>
       <p class="twl">Alessia, fermati un attimo. 😏</p>
       <p class="twl">Le prove, il lucchetto, il «hai vinto»…</p>
-      <p class="twl">…era <b style="color:var(--gold)">tutta una farsa</b>. Non hai vinto nessun concorso, mi dispiace 😅</p>
+      <p class="twl">…era <b style="color:var(--gold)">tutta una farsa</b>, ma a fin di bene 😅</p>
       <p class="twl big2">La verità?</p>
       <p class="twl">Questo è il regalo della tua amica <b style="color:var(--rose)">Sara</b> 💛<br>che ti porta con sé a <b style="color:var(--gold)">Firenze</b>, al concerto di <b style="color:var(--gold)">James Blunt</b>! 🎶</p>
       <p class="twl big2">Tanti auguri! 🎂🎉</p>
@@ -512,12 +511,10 @@ const music=(function(){
     step++}
   function start(){if(started)return;started=true;
     try{ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=.55;master.connect(ctx.destination)}catch(e){return}
-    document.getElementById('soundBtn').hidden=false;timer=setInterval(tick,420)}
-  function toggle(){if(!ctx)return;on=!on;master.gain.setTargetAtTime(on?.55:0,ctx.currentTime,.1);
-    const b=document.getElementById('soundBtn');b.textContent=on?'🔊':'🔇';b.classList.toggle('off',!on)}
+    timer=setInterval(tick,420)}
   function fanfare(){if(!ctx)return;const t=ctx.currentTime+.05;
     ['C5','E5','G5','C6'].forEach((n,i)=>bell(N[n],t+i*.12,.22));bell(N.E5,t+.6,.18);bell(N.G5,t+.6,.18);bell(N.C6,t+.6,.22)}
-  return{start,toggle,fanfare};
+  return{start,fanfare};
 })();
 
 /* ---------- confetti ---------- */
